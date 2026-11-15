@@ -740,6 +740,52 @@ input[type="range"] {
   gap: 16px;
 }
 
+.modal:has(.range-page-previews) {
+  width: min(520px, calc(100% - 32px));
+}
+
+.range-page-previews {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.range-page-preview {
+  margin: 0;
+  min-width: 0;
+}
+
+.range-page-preview figcaption {
+  margin-bottom: 8px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--ink-soft);
+}
+
+.range-page-preview-stage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 244px;
+  padding: 12px;
+  overflow: auto;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--desk);
+  text-align: center;
+  font-size: 12px;
+}
+
+.range-page-preview-stage .thumbnail-sheet {
+  flex-shrink: 0;
+}
+
+@media (max-width: 420px) {
+  .range-page-previews {
+    grid-template-columns: 1fr;
+  }
+}
+
 .page-range-fields label {
   display: grid;
   flex: 1;

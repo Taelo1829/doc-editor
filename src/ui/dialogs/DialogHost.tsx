@@ -12,8 +12,9 @@ import type {
   PageRangeDialogRequest,
   SaveProtectionDialogRequest,
 } from "../../editor/dialogs/DialogController";
-import { useEditorServices } from "../EditorContext";
+import { useEditorServices, useEditorState } from "../EditorContext";
 import { pageRangeError } from "../../core/document/pageRange";
+import { RangePagePreview } from "./RangePagePreview";
 
 type DialogComponents = {
   [K in DialogRequest["kind"]]: (props: { request: Extract<DialogRequest, { kind: K }> }) => ReactNode;
@@ -132,6 +133,7 @@ function PasswordInput({ value, label, autoFocus, disabled, invalid, onChange }:
 
 function PageRangeDialog({ request }: { request: PageRangeDialogRequest }) {
   const { dialogs } = useEditorServices();
+  const { document } = useEditorState();
   const [start, setStart] = useState("1");
   const [end, setEnd] = useState(String(request.pageCount));
   const range = { start: start === "" ? NaN : Number(start), end: end === "" ? NaN : Number(end) };
@@ -158,6 +160,10 @@ function PageRangeDialog({ request }: { request: PageRangeDialogRequest }) {
       <p id="page-range-feedback" className={error ? "modal-error" : "modal-text"} aria-live="polite">
         {error ?? `${range.end - range.start + 1} page(s) will be saved. The open document stays intact.`}
       </p>
+      <div className="range-page-previews">
+        <RangePagePreview document={document} pageNumber={range.start} label="First page" />
+        <RangePagePreview document={document} pageNumber={range.end} label="Last page" />
+      </div>
     </Modal>
   );
 }
